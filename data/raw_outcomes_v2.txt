@@ -1,0 +1,26 @@
+model_family=Qwen2.5-Instruct | greedy | base=3 | recov_window=8 | threshold=0.1 | 30 fixed openers, paired
+
+=== 1.5B (T4, COMPLETE, v1) ===
+C  = [2,4,None,None,2,None,1,5,None,None,None,None,2,None,None,3,2,2,None,None,None,2,None,None,None,2,None,None,2,2]
+S  = [3,None,3,None,None,None,1,None,None,None,None,None,None,None,None,None,None,None,None,None,3,None,None,None,None,None,None,None,2,None]
+X  = [2,None,2,None,None,2,2,None,None,None,None,None,None,2,1,None,None,2,None,None,2,None,None,None,None,1,None,None,2,2]
+D4 = [1,None,3,None,None,None,2,None,None,None,None,None,None,None,2,None,None,None,None,None,2,None,None,None,2,2,None,None,2,None]
+pilot (window=5, n=10 C/S): coupled=[2,4,None,None,2,None,1,5,None,None] single=[3,None,3,None,None,None,1,None,None,None]
+
+=== 3B (L4, COMPLETE) ===
+C  = [1,1,1,1,2,1,1,1,1,1,1,1,2,1,1,3,1,1,1,1,3,1,1,1,2,1,1,1,1,1]
+S  = [1,1,1,2,2,1,1,2,1,1,1,1,1,1,1,2,1,1,1,1,2,1,1,1,2,1,1,1,2,1]
+X  = [1,2,2,2,2,2,None,2,None,1,None,1,1,4,1,2,2,1,2,1,2,1,1,1,2,1,2,1,1,2]
+D4 = [1,1,2,2,4,1,None,2,2,2,2,2,1,None,1,2,None,2,2,2,2,1,1,2,2,1,2,2,2,2]
+
+=== 7B (L4, COMPLETE) ===
+C  = [7,None,5,None,None,4,None,None,7,None,6,None,None,None,None,None,None,None,5,None,5,None,None,None,None,None,None,2,None,None]
+S  = 0/30 recovered (all None)
+X  = 0/30 recovered (all None)
+D4 = [None,None,None,None,2] + [None]*25   (1/30)
+
+=== 7B validity checks ===
+No-perturbation control: 5 openers x 6 exchanges, violation 0.000 throughout -> baseline valid.
+Deterministic replay of all 8 recovered C runs: replayed delay == recorded delay in 8/8.
+Stability (rule fixed pre-inspection): STABLE = openers [3,9,19,21,28] (5/8); TRANSIENT = [1,6,11] (3/8).
+Mean trajectories per replayed run are embedded in v2_figures.py (TRAJ dict).
