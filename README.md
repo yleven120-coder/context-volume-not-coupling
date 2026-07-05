@@ -58,3 +58,10 @@ If you use this work, please cite the Zenodo record (concept DOI, always points 
   howpublished = {arXiv preprint (v2)},
   note = {Zenodo: 10.5281/zenodo.21158324}
 }
+## License
+
+This work is licensed under a [Creative Commons Attribution 4.0 International License](https://creativecommons.org/licenses/by/4.0/).
+
+## Acknowledgments
+
+Experiment code and manuscript drafting were assisted by an AI system (Claude, Anthropic). The author thanks Kai‑Wei Chang for arXiv endorsement and feedback on figures.
