@@ -1,3 +1,4 @@
+# At 7B, the volume account fails: only the coupled loop recovers (p=.0078)
 # Volume or Coupling? A Scale-Dependent Dissociation in Constraint Recovery of Language-Model Loops
 
 **Author:** Simin Yuan  
