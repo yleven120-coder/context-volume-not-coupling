@@ -1,34 +1,60 @@
-# Context Volume, Not Coupling: Constraint Recovery in Small Language-Model Loops
+# Volume or Coupling? A Scale-Dependent Dissociation in Constraint Recovery of Language-Model Loops
 
-A minimal, fully reproducible perturbation–recovery experiment testing whether inter-agent coupling improves recovery from instruction perturbation in recursive LLM loops, or whether the effect is fully explained by per-turn generation volume.
+**Author:** Simin Yuan  
+**Contact:** yleven120@gmail.com  
+**Zenodo (v2):** [10.5281/zenodo.21158324](https://doi.org/10.5281/zenodo.21158324)  
+**arXiv:** *pending (v1 under review; v2 replacement ready)*
 
-## Core Result
-In a paired design with 30 runs across 4 conditions on Qwen2.5-1.5B-Instruct:
-- Coupled dual-model loops recover from perturbation more often than single self-continued loops (43% vs 17%).
-- When a single model generates twice per turn — matching the coupled condition's total generation volume — recovery rate is statistically indistinguishable from the coupled loop (37% vs 43%, p=0.774).
-- The apparent advantage of coupling is fully explained by per-turn generation volume, not inter-agent independence.
-- Recovery follows a bimodal pattern: trajectories either re-lock within 3 exchanges, or remain captured by the perturbation for the full window.
+---
 
-## Experimental Conditions
-1. **Coupled (C)**: Two model instances in a mutual-feeding loop, 2 generations per exchange
-2. **Single (S)**: One instance self-continues, 1 generation per exchange
-3. **Context-matched single (X)**: One instance self-continues twice per exchange (volume-matched control)
-4. **Dose-4 (D4)**: One instance self-continues 4 times per exchange (higher-volume test)
+## Project Overview
 
-## Reproduction
-All experiments run on free-tier Google Colab with a T4 GPU.
-- Each condition completes in < 25 minutes
-- Total compute cost: < 3 T4 GPU-hours
-- Greedy decoding + fixed openers → deterministic trajectories, fully reproducible
+This repository contains the full replication package for the paper **"Volume or Coupling? A Scale-Dependent Dissociation in Constraint Recovery of Language-Model Loops"** (v2, July 2026).
 
-Steps:
-1. Open Google Colab, set runtime to T4 GPU
-2. Run the corresponding notebook in `/code` top-to-bottom
-3. Raw outputs will match `/data/raw_outcomes.txt` exactly
+The study investigates whether coupling a language model to a second agent improves recovery from a conflicting instruction, or whether the effect is merely due to increased generation volume. We use a minimal perturbation–recovery protocol (uppercase constraint, polite lowercase perturbation, 8‑exchange window) across **four conditions** (Coupled, Single, Context‑matched single, Dose‑4) and **three model scales** (1.5B, 3B, 7B) within the Qwen2.5‑Instruct family.
 
-## Resources
-- **Full paper (PDF)**: [`paper/` directory](./paper/)
-- **Permanent academic archive with DOI**: [Zenodo - 10.5281/zenodo.21157629](https://doi.org/10.5281/zenodo.21157629)
-- **arXiv page**: To be updated after endorsement
+**Key findings:**
+- **At 1.5B (v1 base result):** Coupling advantage is fully explained by volume (C: 43%, S: 17%, X: 37%; C vs. X p=0.774).  
+- **At 3B:** All conditions at ceiling (90–100%) – perturbation fails to capture.  
+- **At 7B (v2 reversal):** Volume completely fails (S=0%, X=0%, D4=3.3%), but coupling uniquely recovers (C=26.7%, C vs. X p=0.0078). Recovery is slow (delays 2–7) and driven by **asymmetric capture depth**: the directly perturbed agent is deeply captured, while its shielded partner (never directly receiving the instruction) is only shallowly captured by mimicry and re‑anchors, supplying constraint‑consistent evidence.
+
+The volume effect is therefore **scale‑bounded**: it only operates at small scales; at larger scales, structural shielding (coupling) provides volume‑irreducible recovery.
+
+---
+
+## Repository Structure
+**How to distinguish v1 vs. v2 files:**  
+All v1 files are named without scale suffixes (e.g., `run_1.5B.py`, `raw_1.5B.txt`, `fig1_setup.png`).  
+All v2 additions are clearly marked with `_3B`, `_7B`, `_scale`, or `_traj` in filenames, or placed in subfolders named `v2/` where applicable. Check each folder for detailed file listings.
+
+**Why keep v1 files (paper/ and all v1 data/code/figures)?**  
+To maintain a complete, transparent research trajectory – reviewers and readers can compare the original deflationary result (v1) with the extended scale‑dependent findings (v2). This aligns with Zenodo versioning and arXiv replacement records.
+
+---
+
+## Getting Started
+
+### Hardware Requirements
+- **1.5B tier:** Runs on free Google Colab T4 (under 3 GPU‑hours total).
+- **3B & 7B tiers:** Require L4 GPU (approx. 5 GPU‑hours combined).
+
+### Run the Experiments
+All scripts are in `code/`. The v1 script (`run_1.5B.ipynb`) reproduces the base experiment. The v2 scale‑extension scripts are named `run_3B.ipynb` and `run_7B.ipynb`. Greedy decoding ensures deterministic outputs, so re‑running will reproduce exactly the reported data.
+
+### Reproduce Figures
+The `figures/` folder contains all `.png` outputs. You can regenerate the v2 main figures by running `v2_figures.py` (provided in the root). The v1 figures are also included for reference.
+
+---
 
 ## Citation
+
+If you use this work, please cite the Zenodo record (concept DOI, always points to latest version):
+
+```bibtex
+@misc{yuan2026volume,
+  author = {Simin Yuan},
+  title = {Volume or Coupling? A Scale-Dependent Dissociation in Constraint Recovery of Language-Model Loops},
+  year = {2026},
+  howpublished = {arXiv preprint (v2)},
+  note = {Zenodo: 10.5281/zenodo.21158324}
+}
